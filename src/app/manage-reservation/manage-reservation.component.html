@@ -1,0 +1,82 @@
+<h1>Gestion des réservations</h1>
+
+
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="reservationList">
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let reservation">{{ reservation.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstname">
+      <th mat-header-cell *matHeaderCellDef>Prénom</th>
+      <td mat-cell *matCellDef="let reservation">
+        {{ reservation.firstname }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastname">
+      <th mat-header-cell *matHeaderCellDef>Nom</th>
+      <td mat-cell *matCellDef="let reservation">{{ reservation.lastname }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="date de début">
+      <th mat-header-cell *matHeaderCellDef>Date de début </th>
+      <td mat-cell *matCellDef="let reservation">
+        {{ reservation.date_debut }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date de fin">
+      <th mat-header-cell *matHeaderCellDef>Date de fin</th>
+      <td mat-cell *matCellDef="let reservation">
+        {{ reservation.date_fin }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="accepte">
+      <th mat-header-cell *matHeaderCellDef>Accepté ?</th>
+      <td mat-cell *matCellDef="let reservation">{{ reservation.accepte > 0 ? 'Oui' : 'Non' }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="nom du materiel">
+      <th mat-header-cell *matHeaderCellDef>Nom du materiel loué</th>
+      <td mat-cell *matCellDef="let reservation">{{ reservation.nom }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="numero de serie">
+      <th mat-header-cell *matHeaderCellDef>Numéro de série</th>
+      <td mat-cell *matCellDef="let reservation">{{ reservation.numero_de_serie }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let utilisateur">
+
+        <a mat-mini-fab color="accent" [routerLink]="['/modifier-utilisateur',utilisateur.id]">
+          <mat-icon>edit</mat-icon>
+        </a>
+
+        <button mat-mini-fab class="ms-3" color="warn" >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row
+      *matHeaderRowDef="['email', 'lastname', 'firstname', 'date de début', 'date de fin', 'accepte', 'nom du materiel',
+      'numero de serie',
+      'actions']">
+    </tr>
+    <tr mat-row *matRowDef="
+        let row;
+        columns: ['email', 'lastname', 'firstname', 'date de début', 'date de fin', 'accepte', 'nom du materiel',
+        'numero de serie',
+        'actions']
+      "></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+  </mat-paginator>
+</div>
