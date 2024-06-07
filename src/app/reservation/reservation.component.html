@@ -1,1 +1,37 @@
-<p>reservation works!</p>
+
+<h1 class="row h-30 justify-content-center align-items-center ">Réserver un matériel</h1>
+<form class="formulaire" [formGroup]="formulaireReservation" (ngSubmit)="onAjoutReservation()">
+  <mat-form-field>
+    <mat-label>Nom</mat-label>
+    <input matInput placeholder="Ex. john.do@stagiaire.mns.com" formControlName="nom" />
+
+    @if(formulaireReservation.get("nom")?.hasError('required')){
+    <mat-error>Ce champs est obligatoire</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Numéro de série</mat-label>
+    <input matInput formControlName="numero_de_serie" />
+    <mat-error>Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Date du début de la réservation</mat-label>
+    <input matInput type="date" formControlName="debutReservation" />
+    <mat-error>Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Date de fin de la réservation</mat-label>
+    <input matInput  type="date" formControlName="finReservation" />
+    <mat-error>Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+
+  <button mat-raised-button color="primary">
+    {{ "Réserver" }}
+  </button>
+
+
+</form>

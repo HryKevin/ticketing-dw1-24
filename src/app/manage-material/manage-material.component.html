@@ -35,12 +35,11 @@
             <button mat-mini-fab class="ms-3" color="warn">
               <mat-icon>delete</mat-icon>
             </button>
-        }
-        @if (material.disponible > 0) {
+          }
             <a mat-mini-fab class="ms-3" color="accent" [routerLink]="['/reservation',material.id]">
               <mat-icon>add</mat-icon>
             </a>
-        }
+
 
             <button mat-mini-fab class="ms-3" color="primary">
               <mat-icon>info</mat-icon>

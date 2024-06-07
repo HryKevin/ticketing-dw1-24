@@ -13,8 +13,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
+
 @Component({
-  selector: 'app-reservation',
+  selector: 'app-edit-reservation',
   standalone: true,
   imports: [
     FormsModule,
@@ -25,92 +26,90 @@ import { ActivatedRoute, Router } from '@angular/router';
     HttpClientModule,
     MatSnackBarModule,
   ],
-  templateUrl: './reservation.component.html',
-  styleUrl: './reservation.component.scss',
+  templateUrl: './edit-reservation.component.html',
+  styleUrl: './edit-reservation.component.scss',
 })
-export class ReservationComponent {
+export class EditReservationComponent {
   http: HttpClient = inject(HttpClient);
   formBuilder: FormBuilder = inject(FormBuilder);
   snackBar: MatSnackBar = inject(MatSnackBar);
   router: Router = inject(Router);
   route: ActivatedRoute = inject(ActivatedRoute);
 
-  formulaireReservation: FormGroup = this.formBuilder.group({
-    nom: ['', [Validators.required]],
-    numero_de_serie: ['', [Validators.required]],
-    debutReservation: ['', [Validators.required]],
-    finReservation: ['', [Validators.required]],
+  formulaire: FormGroup = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+    firstname: ['', [Validators.required]],
+    lastname: ['', [Validators.required]],
+    role: ['Etudiant', [Validators.required]],
   });
 
-  materialId?: number;
+  roleList: string[] = ['Etudiant', 'Gestionnaire', 'Administrateur'];
+
+  userId?: number;
 
   ngOnInit() {
     this.route.params.subscribe((parametres) => {
       //si il y a bien un parametre dans l'URL et que c'est bien un nombre
       if (parametres['id'] && !isNaN(parametres['id'])) {
-        this.materialId = parametres['id'];
+        this.userId = parametres['id'];
 
-        this.formulaireReservation = this.formBuilder.group({
-          nom: [{ value: '', disabled: true }, [Validators.required]],
-          numero_de_serie: [
-            { value: '', disabled: true },
-            [Validators.required],
-          ],
-          debutReservation: ['', [Validators.required]],
-          finReservation: ['', [Validators.required]],
+        this.formulaire = this.formBuilder.group({
+          email: ['', [Validators.required, Validators.email]],
+          password: ['', []],
+          firstname: ['', [Validators.required]],
+          lastname: ['', [Validators.required]],
+          role: ['Etudiant', [Validators.required]],
         });
-
-        
 
         const jwt = localStorage.getItem('jwt');
 
         if (jwt) {
           this.http
             .get(
-              'http://backend-angular-ticket/get-material.php?id=' +
+              'http://backend-angular-ticket/get-user.php?id=' +
                 parametres['id'],
               { headers: { Authorization: jwt } }
-              
             )
             .subscribe({
-              next: (material) =>
-                this.formulaireReservation.patchValue(material),
+              next: (utilisateur) => this.formulaire.patchValue(utilisateur),
               error: (erreur) => alert(erreur.error.message),
             });
         }
       } else {
-        this.formulaireReservation = this.formBuilder.group({
-          nom: ['', [Validators.required, Validators.email]],
-          numero_de_serie: ['', [Validators.required]],
-          debutReservation: ['', [Validators.required]],
-          finReservation: ['', [Validators.required]],
+        this.formulaire = this.formBuilder.group({
+          email: ['', [Validators.required, Validators.email]],
+          password: ['', [Validators.required]],
+          firstname: ['', [Validators.required]],
+          lastname: ['', [Validators.required]],
+          role: ['Etudiant', [Validators.required]],
         });
       }
     });
   }
 
-  onAjoutReservation() {
-    if (this.formulaireReservation.valid) {
-      const url =
-        'http://backend-angular-ticket/add-reservation.php?id=' + this.materialId;
+  onAjoutUtilisateur() {
+    if (this.formulaire.valid) {
+      const url = this.userId
+        ? 'http://backend-angular-ticket/edit-user.php?id=' + this.userId
+        : 'http://backend-angular-ticket/add-user.php';
 
       const jwt = localStorage.getItem('jwt');
 
       if (jwt) {
         this.http
-          .post(url, this.formulaireReservation.value, {
-            headers: { Authorization: jwt },
-          })
+          .post(url, this.formulaire.value, { headers: { Authorization: jwt } })
           .subscribe({
             next: (resultat) => {
               this.snackBar.open(
-                'La reservation a bien été ajouté',
+                "L'utilisateur a bien été " +
+                  (this.userId ? 'modifié' : 'ajouté'),
                 undefined,
                 {
                   duration: 3000,
                 }
               );
-              this.router.navigateByUrl('/');
+              this.router.navigateByUrl('/gestion-utilisateurs');
             },
             error: (erreur) => {
               if (erreur.status == 409) {
@@ -123,10 +122,4 @@ export class ReservationComponent {
       }
     }
   }
-
-
 }
-
-
-
-
