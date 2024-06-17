@@ -46,4 +46,24 @@ export class ManageMaterialComponent {
         });
     }
   }
+
+  onSuppressionMateriel(idMateriel: number) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce matériel ?')) {
+      const jwt = localStorage.getItem('jwt');
+
+      if (jwt) {
+        this.html
+          .delete(
+            'http://backend-angular-ticket/delete-material.php?id=' +
+              idMateriel,
+            { headers: { Authorization: jwt } }
+          )
+          .subscribe({
+            next: (result) => this.raffraichir(),
+            error: () =>
+              alert('Le matériel ne peut être supprimer si il est présent dans une réservation'),
+          });
+      }
+    }
+  }
 }

@@ -43,4 +43,23 @@ export class ManageReservationComponent {
         });
     }
   }
+
+  onSuppressionReservation(idReservation: number) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette réservation ?')) {
+      const jwt = localStorage.getItem('jwt');
+
+      if (jwt) {
+        this.html
+          .delete(
+            'http://backend-angular-ticket/delete-reservation.php?id=' + idReservation,
+            { headers: { Authorization: jwt } }
+          )
+          .subscribe({
+            next: (result) => this.raffraichir(),
+            error: () =>
+              alert('Erreur inconnue, contactez votre administrateur'),
+          });
+      }
+    }
+  }
 }

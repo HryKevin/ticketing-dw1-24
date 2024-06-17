@@ -52,13 +52,13 @@
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let utilisateur">
+      <td mat-cell *matCellDef="let reservation">
 
-        <a mat-mini-fab color="accent" [routerLink]="['/modifier-utilisateur',utilisateur.id]">
+        <a mat-mini-fab color="accent" [routerLink]="['/modifier-reservation',reservation.id]">
           <mat-icon>edit</mat-icon>
         </a>
 
-        <button mat-mini-fab class="ms-3" color="warn" >
+        <button mat-mini-fab class="ms-3" color="warn" (click)="onSuppressionReservation(reservation.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

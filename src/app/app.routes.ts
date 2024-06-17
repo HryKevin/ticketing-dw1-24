@@ -7,13 +7,17 @@ import { LoginComponent } from './login/login.component';
 import { ManageReservationComponent } from './manage-reservation/manage-reservation.component';
 import { ManageMaterialComponent } from './manage-material/manage-material.component';
 import { ReservationComponent } from './reservation/reservation.component';
+import { EditReservationComponent } from './edit-reservation/edit-reservation.component';
+import { EditMaterialComponent } from './edit-material/edit-material.component';
 
 export const routes: Routes = [
   { path: 'accueil', component: HomeComponent },
   { path: 'ajout-utilisateur', component: EditUserComponent },
   { path: 'modifier-utilisateur/:id', component: EditUserComponent },
   { path: 'gestion-utilisateurs', component: ManageUserComponent },
+  { path: 'modifier-reservation/:id', component: EditReservationComponent },
   { path: 'gestion-reservations', component: ManageReservationComponent },
+  { path: 'modifier-materiel/:id', component: EditMaterialComponent },
   { path: 'materiels', component: ManageMaterialComponent },
   { path: 'reservation/:id', component: ReservationComponent },
   { path: 'connexion', component: LoginComponent },

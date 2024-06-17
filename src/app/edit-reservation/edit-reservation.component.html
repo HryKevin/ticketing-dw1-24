@@ -1,43 +1,55 @@
-<form class="formulaire" [formGroup]="formulaire" (ngSubmit)="onAjoutUtilisateur()">
+<form class="formulaire" [formGroup]="formulaire" (ngSubmit)="onModifReservation()">
   <mat-form-field>
     <mat-label>Email</mat-label>
-    <input matInput placeholder="Ex. john.do@stagiaire.mns.com" type="email" formControlName="email" />
-
-    @if(formulaire.get("email")?.hasError('required')){
-    <mat-error>Ce champs est obligatoire</mat-error>
-    }@else if (formulaire.get("email")?.hasError('email')) {
-    <mat-error>Le format de l'email est incorrect</mat-error>
-    }
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Mot de passe</mat-label>
-    <input matInput type="password" formControlName="password" />
-    <mat-error>Ce champs est obligatoire</mat-error>
-  </mat-form-field>
-
-  <mat-form-field>
-    <mat-label>Prénom</mat-label>
-    <input matInput placeholder="Ex. John" type="text" formControlName="firstname" />
-    <mat-error>Ce champs est obligatoire</mat-error>
+    <input matInput placeholder="Ex. john.doe@example.com" type="email" formControlName="email" readonly />
+    <mat-error *ngIf="formulaire.get('email')?.hasError('required')">Ce champs est obligatoire</mat-error>
+    <mat-error *ngIf="formulaire.get('email')?.hasError('email')">Le format de l'email est incorrect</mat-error>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Nom</mat-label>
-    <input matInput placeholder="Ex. Doe" type="text" formControlName="lastname" />
-    <mat-error>Ce champs est obligatoire</mat-error>
+    <input matInput placeholder="Ex. Doe" type="text" formControlName="lastname" readonly />
+    <mat-error *ngIf="formulaire.get('lastname')?.hasError('required')">Ce champs est obligatoire</mat-error>
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>Role</mat-label>
-    <mat-select formControlName="role">
-      @for (role of roleList; track role) {
-      <mat-option [value]="role">{{ role }}</mat-option>
-      }
-    </mat-select>
+    <mat-label>Prénom</mat-label>
+    <input matInput placeholder="Ex. John" type="text" formControlName="firstname" readonly />
+    <mat-error *ngIf="formulaire.get('firstname')?.hasError('required')">Ce champs est obligatoire</mat-error>
   </mat-form-field>
 
-  <button mat-raised-button color="primary">
-    {{ userId ? "Modifier l'utilisateur" : "Ajouter l'utilisateur" }}
-  </button>
+  <mat-form-field>
+    <mat-label>Date de début</mat-label>
+    <input matInput type="date" formControlName="date_debut" />
+    <mat-error *ngIf="formulaire.get('date_debut')?.hasError('required')">Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Date de fin</mat-label>
+    <input matInput type="date" formControlName="date_fin" />
+    <mat-error *ngIf="formulaire.get('date_fin')?.hasError('required')">Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Accepté ?</mat-label>
+    <mat-select formControlName="accepte">
+      <mat-option [value]="true">Oui</mat-option>
+      <mat-option [value]="false">Non</mat-option>
+    </mat-select>
+    <mat-error *ngIf="formulaire.get('accepte')?.hasError('required')">Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Nom du matériel loué</mat-label>
+    <input matInput type="text" formControlName="nom" readonly />
+    <mat-error *ngIf="formulaire.get('nom')?.hasError('required')">Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Numéro de série</mat-label>
+    <input matInput type="text" formControlName="numero_de_serie" readonly />
+    <mat-error *ngIf="formulaire.get('numero_de_serie')?.hasError('required')">Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary">Modifier la réservation</button>
 </form>

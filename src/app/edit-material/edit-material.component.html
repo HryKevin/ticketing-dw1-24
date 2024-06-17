@@ -1,0 +1,22 @@
+<form class="formulaire" [formGroup]="formulaire" (ngSubmit)="onModifMaterial()">
+
+  <mat-form-field>
+    <mat-label>Nom du matériel</mat-label>
+    <input matInput type="text" formControlName="nom"  />
+    <mat-error *ngIf="formulaire.get('nom')?.hasError('required')">Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Date d'achat</mat-label>
+    <input matInput type="date" formControlName="date_achat" />
+    <mat-error *ngIf="formulaire.get('date_achat')?.hasError('required')">Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Numéro de série</mat-label>
+    <input matInput type="text" formControlName="numero_de_serie"  />
+    <mat-error *ngIf="formulaire.get('numero_de_serie')?.hasError('required')">Ce champs est obligatoire</mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary">Modifier la réservation</button>
+</form>

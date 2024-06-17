@@ -3,6 +3,10 @@
 <p>Voici tous les matériels</p>
 <br>
 
+<a mat-raised-button color="primary" routerLink="/ajout-materiel">
+  Ajouter un nouveau matériel
+</a>
+
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="materialList">
 
@@ -28,11 +32,11 @@
       <td mat-cell *matCellDef="let material">
 
         @if (authentification.role == "Administrateur") {
-            <a mat-mini-fab class="ms-3" color="accent" [routerLink]="['/modifier-utilisateur',material.id]">
+            <a mat-mini-fab class="ms-3" color="accent" [routerLink]="['/modifier-materiel',material.id]">
               <mat-icon>edit</mat-icon>
             </a>
 
-            <button mat-mini-fab class="ms-3" color="warn">
+            <button mat-mini-fab class="ms-3" color="warn" (click)="onSuppressionMateriel(material.id)">
               <mat-icon>delete</mat-icon>
             </button>
           }

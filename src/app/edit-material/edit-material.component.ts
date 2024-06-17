@@ -14,7 +14,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-edit-reservation',
+  selector: 'app-edit-material',
   standalone: true,
   imports: [
     FormsModule,
@@ -25,10 +25,10 @@ import { ActivatedRoute, Router } from '@angular/router';
     HttpClientModule,
     MatSnackBarModule,
   ],
-  templateUrl: './edit-reservation.component.html',
-  styleUrls: ['./edit-reservation.component.scss'],
+  templateUrl: './edit-material.component.html',
+  styleUrl: './edit-material.component.scss',
 })
-export class EditReservationComponent {
+export class EditMaterialComponent {
   http: HttpClient = inject(HttpClient);
   formBuilder: FormBuilder = inject(FormBuilder);
   snackBar: MatSnackBar = inject(MatSnackBar);
@@ -36,43 +36,33 @@ export class EditReservationComponent {
   route: ActivatedRoute = inject(ActivatedRoute);
 
   formulaire: FormGroup = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
-    lastname: ['', [Validators.required]],
-    firstname: ['', [Validators.required]],
-    date_debut: ['', [Validators.required]],
-    date_fin: ['', [Validators.required]],
-    accepte: [false, [Validators.required]],
     nom: ['', [Validators.required]],
+    date_achat: ['', [Validators.required]],
     numero_de_serie: ['', [Validators.required]],
   });
 
-  reservationId?: number;
+  materialId?: number;
 
   ngOnInit() {
     this.route.params.subscribe((parametres) => {
       if (parametres['id'] && !isNaN(parametres['id'])) {
-        this.reservationId = parametres['id'];
+        this.materialId = parametres['id'];
 
         const jwt = localStorage.getItem('jwt');
 
         if (jwt) {
           this.http
             .get(
-              'http://backend-angular-ticket/get-reservation.php?id=' +
+              'http://backend-angular-ticket/get-material.php?id=' +
                 parametres['id'],
               { headers: { Authorization: jwt } }
             )
             .subscribe({
-              next: (reservation: any) =>
+              next: (material: any) =>
                 this.formulaire.patchValue({
-                  email: reservation.email,
-                  lastname: reservation.lastname,
-                  firstname: reservation.firstname,
-                  date_debut: reservation.date_debut.split('T')[0],
-                  date_fin: reservation.date_fin.split('T')[0],
-                  accepte: reservation.accepte,
-                  nom: reservation.nom,
-                  numero_de_serie: reservation.numero_de_serie,
+                  nom: material.nom,
+                  date_achat: material.date_achat.split('T')[0],
+                  numero_de_serie: material.numero_de_serie,
                 }),
               error: (erreur) => alert(erreur.error.message),
             });
@@ -81,11 +71,11 @@ export class EditReservationComponent {
     });
   }
 
-  onModifReservation() {
+  onModifMaterial() {
     if (this.formulaire.valid) {
       const url =
-        'http://backend-angular-ticket/edit-reservation.php?id=' +
-        this.reservationId;
+        'http://backend-angular-ticket/edit-material.php?id=' +
+        this.materialId;
 
       const jwt = localStorage.getItem('jwt');
 
@@ -95,13 +85,13 @@ export class EditReservationComponent {
           .subscribe({
             next: (resultat) => {
               this.snackBar.open(
-                "La réservation a bien été modifié",
+                "Le matériel a bien été modifié",
                 undefined,
                 {
                   duration: 3000,
                 }
               );
-              this.router.navigateByUrl('/gestion-reservations');
+              this.router.navigateByUrl('/materiels');
             },
             error: (erreur) => {
               if (erreur.status == 409) {
