@@ -45,6 +45,7 @@ export class ReservationComponent {
   materialId?: number;
 
   ngOnInit() {
+    this.checkAuthentication(); // Vérifier l'authentification
     this.route.params.subscribe((parametres) => {
       //si il y a bien un parametre dans l'URL et que c'est bien un nombre
       if (parametres['id'] && !isNaN(parametres['id'])) {
@@ -60,8 +61,6 @@ export class ReservationComponent {
           finReservation: ['', [Validators.required]],
         });
 
-        
-
         const jwt = localStorage.getItem('jwt');
 
         if (jwt) {
@@ -70,7 +69,6 @@ export class ReservationComponent {
               'http://backend-angular-ticket/get-material.php?id=' +
                 parametres['id'],
               { headers: { Authorization: jwt } }
-              
             )
             .subscribe({
               next: (material) =>
@@ -89,10 +87,18 @@ export class ReservationComponent {
     });
   }
 
+  checkAuthentication() {
+    const jwt = localStorage.getItem('jwt');
+    if (!jwt) {
+      this.router.navigate(['/connexion']);
+    }
+  }
+
   onAjoutReservation() {
     if (this.formulaireReservation.valid) {
       const url =
-        'http://backend-angular-ticket/add-reservation.php?id=' + this.materialId;
+        'http://backend-angular-ticket/add-reservation.php?id=' +
+        this.materialId;
 
       const jwt = localStorage.getItem('jwt');
 
@@ -123,8 +129,6 @@ export class ReservationComponent {
       }
     }
   }
-
-
 }
 
 

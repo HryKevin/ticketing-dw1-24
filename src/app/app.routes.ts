@@ -9,6 +9,7 @@ import { ManageMaterialComponent } from './manage-material/manage-material.compo
 import { ReservationComponent } from './reservation/reservation.component';
 import { EditReservationComponent } from './edit-reservation/edit-reservation.component';
 import { EditMaterialComponent } from './edit-material/edit-material.component';
+import { LogoutComponent } from './logout/logout.component';
 
 export const routes: Routes = [
   { path: 'accueil', component: HomeComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'materiels', component: ManageMaterialComponent },
   { path: 'reservation/:id', component: ReservationComponent },
   { path: 'connexion', component: LoginComponent },
+  { path: 'deconnexion', component: LogoutComponent },
   { path: '', redirectTo: 'accueil', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];

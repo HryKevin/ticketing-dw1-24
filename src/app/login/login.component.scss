@@ -1,0 +1,22 @@
+.title {
+  text-align: center;
+  width: 20%;
+  margin: 20px auto;
+  height: auto;
+  color: #bf69e4;
+}
+
+.body-container {
+  height: calc(100vh - 74px);
+  display: flex;
+  height: calc(100vh - 74px);
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.formulaire {
+     width: 100%; /* Largeur du formulaire à 100% */
+  text-align: center; /* Centrer le contenu du formulaire */
+  border: solid 5px #8531a9;
+}

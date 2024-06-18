@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
@@ -27,9 +27,19 @@ export class ManageMaterialComponent {
   authentification: AuthentificationService = inject(AuthentificationService);
   html: HttpClient = inject(HttpClient);
   materialList: any = [];
+  router: Router = inject(Router);
 
   ngOnInit() {
-    this.raffraichir();
+    this.checkAuthentication();
+  }
+
+  checkAuthentication() {
+    const jwt = localStorage.getItem('jwt');
+    if (!jwt) {
+      this.router.navigate(['/connexion']);
+    } else {
+      this.raffraichir();
+    }
   }
 
   raffraichir() {
@@ -61,7 +71,9 @@ export class ManageMaterialComponent {
           .subscribe({
             next: (result) => this.raffraichir(),
             error: () =>
-              alert('Le matériel ne peut être supprimer si il est présent dans une réservation'),
+              alert(
+                'Le matériel ne peut être supprimer si il est présent dans une réservation'
+              ),
           });
       }
     }

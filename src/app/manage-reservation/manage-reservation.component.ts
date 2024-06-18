@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
@@ -24,9 +24,19 @@ import { MatIconModule } from '@angular/material/icon';
 export class ManageReservationComponent {
   html: HttpClient = inject(HttpClient);
   reservationList: any = [];
+  router: Router = inject(Router);
 
   ngOnInit() {
-    this.raffraichir();
+    this.checkAuthentication();
+  }
+
+  checkAuthentication() {
+    const jwt = localStorage.getItem('jwt');
+    if (!jwt) {
+      this.router.navigate(['/connexion']);
+    } else {
+      this.raffraichir();
+    }
   }
 
   raffraichir() {
@@ -51,7 +61,8 @@ export class ManageReservationComponent {
       if (jwt) {
         this.html
           .delete(
-            'http://backend-angular-ticket/delete-reservation.php?id=' + idReservation,
+            'http://backend-angular-ticket/delete-reservation.php?id=' +
+              idReservation,
             { headers: { Authorization: jwt } }
           )
           .subscribe({

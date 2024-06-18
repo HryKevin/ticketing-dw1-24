@@ -19,11 +19,7 @@
           </li>
         }
         
-        @if (!authentification.role) {
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/connexion" routerLinkActive="active">Connexion</a>
-        </li>
-        }
+       
 
         @if (authentification.role == "Administrateur") {
 
@@ -35,6 +31,12 @@
           <a class="nav-link" routerLink="/gestion-utilisateurs" routerLinkActive="active">Gestion Utilisateurs</a>
         </li>
         }
+
+         @if (authentification.role) {
+         <li class="nav-item">
+           <a class="nav-link" routerLink="/deconnexion" routerLinkActive="active">Déconnexion</a>
+         </li>
+         }
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Numero ticket, utilisateur..."

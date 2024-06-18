@@ -1,0 +1,41 @@
+<!-- src/app/accueil/accueil.component.html -->
+<div class="welcome">
+  <h1 class=" .d-flex flex-row h-30 justify-content-center align-items-center mt-5">Bienvenue, <span>{{ userName }}
+    </span> !</h1>
+</div>
+
+<div class="reservations">
+  <h2>Vos Réservations :</h2>
+  <table mat-table [dataSource]="reservations" class="mat-elevation-z8">
+    <ng-container matColumnDef="date_demande">
+      <th mat-header-cell *matHeaderCellDef> Date de demande </th>
+      <td mat-cell *matCellDef="let element"> {{ element.date_demande  }} </td>
+    </ng-container>
+    <ng-container matColumnDef="nom">
+      <th mat-header-cell *matHeaderCellDef> Nom du matériel </th>
+      <td mat-cell *matCellDef="let element"> {{ element.nom  }} </td>
+    </ng-container>
+    <ng-container matColumnDef="date_debut">
+      <th mat-header-cell *matHeaderCellDef> Début </th>
+      <td mat-cell *matCellDef="let element"> {{ element.date_debut  }} </td>
+    </ng-container>
+    <ng-container matColumnDef="date_fin">
+      <th mat-header-cell *matHeaderCellDef> Fin </th>
+      <td mat-cell *matCellDef="let element"> {{ element.date_fin  }} </td>
+    </ng-container>
+    <ng-container matColumnDef="numero_de_serie">
+      <th mat-header-cell *matHeaderCellDef> Numéro de série </th>
+      <td mat-cell *matCellDef="let element"> {{ element.numero_de_serie}} </td>
+    </ng-container>
+    <ng-container matColumnDef="valide">
+      <th mat-header-cell *matHeaderCellDef> Accepté ? </th>
+      <td mat-cell *matCellDef="let element"> {{ element.accepte}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+<div class="profile-link">
+  <a routerLink="/profile">Voir votre profil</a>
+</div>
