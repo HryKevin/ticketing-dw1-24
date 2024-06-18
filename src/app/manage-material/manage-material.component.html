@@ -1,10 +1,20 @@
+@if (authentification.role == "Administrateur") {
 <h1 class="row h-30 justify-content-center align-items-center mt-5 ">Gestion des <span class="row h-30 justify-content-center
     align-items-center mb-5">Matériels</span></h1>
-<br>
+    <br>
+    <a mat-raised-button color="primary" routerLink="/ajout-materiel">
+      Ajouter un nouveau matériel
+    </a>
+}@else{
+  <h1 class="row h-30 justify-content-center align-items-center mt-5 "><span class="row h-30 justify-content-center
+    align-items-center mb-5">Matériels</span></h1>
+  <br>
+}
 
-<a  mat-raised-button color="primary" routerLink="/ajout-materiel">
-  Ajouter un nouveau matériel
-</a>
+
+
+
+
 
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="materialList">
@@ -27,7 +37,7 @@
     </ng-container>
 
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th mat-header-cell *matHeaderCellDef>Appuyer sur le '+' pour louer un matériel</th>
       <td mat-cell *matCellDef="let material">
 
         @if (authentification.role == "Administrateur") {

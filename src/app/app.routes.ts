@@ -10,6 +10,7 @@ import { ReservationComponent } from './reservation/reservation.component';
 import { EditReservationComponent } from './edit-reservation/edit-reservation.component';
 import { EditMaterialComponent } from './edit-material/edit-material.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ProfilComponent } from './profil/profil.component';
 
 export const routes: Routes = [
   { path: 'accueil', component: HomeComponent },
@@ -18,9 +19,11 @@ export const routes: Routes = [
   { path: 'gestion-utilisateurs', component: ManageUserComponent },
   { path: 'modifier-reservation/:id', component: EditReservationComponent },
   { path: 'gestion-reservations', component: ManageReservationComponent },
+  { path: 'ajout-materiel', component: EditMaterialComponent },
   { path: 'modifier-materiel/:id', component: EditMaterialComponent },
   { path: 'materiels', component: ManageMaterialComponent },
   { path: 'reservation/:id', component: ReservationComponent },
+  { path: 'profil', component: ProfilComponent },
   { path: 'connexion', component: LoginComponent },
   { path: 'deconnexion', component: LogoutComponent },
   { path: '', redirectTo: 'accueil', pathMatch: 'full' },

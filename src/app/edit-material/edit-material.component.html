@@ -1,22 +1,24 @@
-<form class="formulaire" [formGroup]="formulaire" (ngSubmit)="onModifMaterial()">
+<form class="formulaire" [formGroup]="formulaire" (ngSubmit)="onSubmit()">
 
   <mat-form-field>
     <mat-label>Nom du matériel</mat-label>
-    <input matInput type="text" formControlName="nom"  />
-    <mat-error *ngIf="formulaire.get('nom')?.hasError('required')">Ce champs est obligatoire</mat-error>
+    <input matInput type="text" formControlName="nom" />
+    <mat-error *ngIf="formulaire.get('nom')?.hasError('required')">Ce champ est obligatoire</mat-error>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Date d'achat</mat-label>
     <input matInput type="date" formControlName="date_achat" />
-    <mat-error *ngIf="formulaire.get('date_achat')?.hasError('required')">Ce champs est obligatoire</mat-error>
+    <mat-error *ngIf="formulaire.get('date_achat')?.hasError('required')">Ce champ est obligatoire</mat-error>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Numéro de série</mat-label>
-    <input matInput type="text" formControlName="numero_de_serie"  />
-    <mat-error *ngIf="formulaire.get('numero_de_serie')?.hasError('required')">Ce champs est obligatoire</mat-error>
+    <input matInput type="text" formControlName="numero_de_serie" />
+    <mat-error *ngIf="formulaire.get('numero_de_serie')?.hasError('required')">Ce champ est obligatoire</mat-error>
   </mat-form-field>
 
-  <button mat-raised-button color="primary">Modifier la réservation</button>
+  <button mat-raised-button color="primary">
+    {{ materialId ? "Modifier le matériel" : "Ajouter le matériel" }}
+  </button>
 </form>

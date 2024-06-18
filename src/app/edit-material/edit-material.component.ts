@@ -44,62 +44,51 @@ export class EditMaterialComponent {
   materialId?: number;
 
   ngOnInit() {
-    this.route.params.subscribe((parametres) => {
-      if (parametres['id'] && !isNaN(parametres['id'])) {
-        this.materialId = parametres['id'];
+    this.route.params.subscribe(params => {
+      if (params['id'] && !isNaN(params['id'])) {
+        this.materialId = +params['id'];
 
         const jwt = localStorage.getItem('jwt');
 
         if (jwt) {
-          this.http
-            .get(
-              'http://backend-angular-ticket/get-material.php?id=' +
-                parametres['id'],
-              { headers: { Authorization: jwt } }
-            )
+          this.http.get<any>('http://backend-angular-ticket/get-material.php?id=' + params['id'], { headers: { Authorization: jwt } })
             .subscribe({
-              next: (material: any) =>
+              next: material => {
                 this.formulaire.patchValue({
                   nom: material.nom,
                   date_achat: material.date_achat.split('T')[0],
                   numero_de_serie: material.numero_de_serie,
-                }),
-              error: (erreur) => alert(erreur.error.message),
+                });
+              },
+              error: erreur => alert(erreur.error.message)
             });
         }
       }
     });
   }
 
-  onModifMaterial() {
+  onSubmit(): void {
     if (this.formulaire.valid) {
-      const url =
-        'http://backend-angular-ticket/edit-material.php?id=' +
-        this.materialId;
+      const url = this.materialId
+        ? 'http://backend-angular-ticket/edit-material.php?id=' + this.materialId
+        : 'http://backend-angular-ticket/add-material.php';
 
       const jwt = localStorage.getItem('jwt');
 
       if (jwt) {
-        this.http
-          .post(url, this.formulaire.value, { headers: { Authorization: jwt } })
+        this.http.post(url, this.formulaire.value, { headers: { Authorization: jwt } })
           .subscribe({
-            next: (resultat) => {
-              this.snackBar.open(
-                "Le matériel a bien été modifié",
-                undefined,
-                {
-                  duration: 3000,
-                }
-              );
+            next: () => {
+              this.snackBar.open(this.materialId ? 'Le matériel a bien été modifié' : 'Le matériel a bien été ajouté', undefined, { duration: 3000 });
               this.router.navigateByUrl('/materiels');
             },
-            error: (erreur) => {
-              if (erreur.status == 409) {
+            error: erreur => {
+              if (erreur.status === 409) {
                 alert(erreur.error.message);
               } else {
                 alert('Erreur inconnue, contactez votre administrateur');
               }
-            },
+            }
           });
       }
     }
